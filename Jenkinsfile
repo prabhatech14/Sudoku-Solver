@@ -15,12 +15,13 @@ pipeline {
                 DOCKER_IMAGE = "prabhatech14/Python_sample:${BUILD_NUMBER}"
                 // DOCKERFILE_LOCATION = "https://github.com/prabhatech14/Sudoku-Solver/DockerFile"
                 REGISTRY_CREDENTIALS = credentials('docker-cred')
+                REGISTRY_CREDENTIALS_PSW = credentials('docker-cred-psw')
             }
             steps {
                 script {
                     sh 'docker build -t ${DOCKER_IMAGE} .'
                     def dockerImage = docker.image("${DOCKER_IMAGE}")
-                    docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                     maskPassword("${env.REGISTRY_CREDENTIALS_USR}:${env.REGISTRY_CREDENTIALS_PSW}") {
                     dockerImage.push()
                    }
                 }
