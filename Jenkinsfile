@@ -4,8 +4,10 @@ Pipeline {
 stages {
     stage ('Checkout') {
         steps{
-            sh 'echo passed'
-            //git branch : 'master', url: 'https://github.com/prabhatech14/Sudoku-Solver' 
+            checkout([$class: 'GitSCM', 
+                        branches: [[name: '*/master']], 
+                        userRemoteConfigs: [[url: 'https://github.com/prabhatech14/Sudoku-Solver']]])
+                        //git branch : 'master', url: 'https://github.com/prabhatech14/Sudoku-Solver' 
         }
 
     }
