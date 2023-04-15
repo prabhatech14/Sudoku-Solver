@@ -12,7 +12,7 @@ pipeline {
         }
         stage ('Build Image') {
              environment {
-                DOCKER_IMAGE = "prabhatech14/Python_sample:${BUILD_NUMBER}"
+                DOCKER_IMAGE = "prabhatech14/python_sample:${BUILD_NUMBER}"
                 // DOCKERFILE_LOCATION = "https://github.com/prabhatech14/Sudoku-Solver/DockerFile"
             }
             steps {
