@@ -10,21 +10,28 @@ pipeline {
             }
 
         }
-        stage ('Build and Push Docker Image') {
+        stage ('Build Image') {
              environment {
                 DOCKER_IMAGE = "prabhatech14/Python_sample:${BUILD_NUMBER}"
                 // DOCKERFILE_LOCATION = "https://github.com/prabhatech14/Sudoku-Solver/DockerFile"
-                REGISTRY_CREDENTIALS = credentials('docker-cred')
             }
             steps {
                 script {
                     sh 'docker build -t ${DOCKER_IMAGE} .'
-                    withDockerRegistry([ credentialsId: "docker-cred", url: "https://index.docker.io/v1/" ]) {
-                    dockerImage.push()
-                   }
                 }
             }
         }
+        stage ('Push Docker Image') {
+            environment {
+                 REGISTRY_CREDENTIALS = credentials('docker-cred')
+            }
+            steps {
+                script {
+                    withDockerRegistry([ credentialsId: "docker-cred", url: "https://index.docker.io/v1/" ]) {
+                    dockerImage.push()
+                 }
+            }
+        }        
         stage ('Update Deployment file') {
             environment {
                 GIT_REPO_NAME = "Sudoku-Solver"
