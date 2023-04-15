@@ -29,7 +29,8 @@ pipeline {
                 script {
                     withDockerRegistry([ credentialsId: "docker-cred", url: "https://index.docker.io/v1/" ]) {
                     dockerImage.push()
-                 }
+                    }
+                }
             }
         }        
         stage ('Update Deployment file') {
